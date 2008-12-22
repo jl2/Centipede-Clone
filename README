@@ -1,0 +1,14 @@
+This is Centipede Clone, by Jeremiah LaRocco.
+
+To get the code:
+
+   svn co http://jlarocco.com/centipede/trunk/ centipede
+
+To build:
+
+   qmake
+   make
+
+To play the game:
+
+   ./centipede

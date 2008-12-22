@@ -1,0 +1,13 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>images/body_segment.svg</file>
+    <file>images/bullet.svg</file>
+    <file>images/circle.svg</file>
+    <file>images/flea.svg</file>
+    <file>images/head_segment.svg</file>
+    <file>images/mushroom.svg</file>
+    <file>images/scorpion.svg</file>
+    <file>images/ship.svg</file>
+    <file>images/spider.svg</file>
+</qresource>
+</RCC>	

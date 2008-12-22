@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  mushroom.svg
+ 
+  Copyright (C) 2008 Jeremiah LaRocco
+
+  This file is part of Centipede
+
+  Centipede is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Centipede is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with Centipede.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   width="64"
+   height="64"
+   id="svg2383">
+  <defs
+     id="defs2385" />
+  <g
+     id="layer1">
+    <path
+       d="M 41.976431,42.947502 A 5.3033009,12.117239 0 1 1 31.369829,42.947502 A 5.3033009,12.117239 0 1 1 41.976431,42.947502 z"
+       transform="matrix(1.7557448,0,0,1.3023069,-34.05889,-10.281418)"
+       id="path4647"
+       style="opacity:0.92000002;fill:#ffea66;fill-opacity:0.59183673;stroke:#ff00ff;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.22789115" />
+    <path
+       d="M 54.254375,25.816235 A 16.970562,8.1638689 0 1 1 20.313251,25.816235 A 16.970562,8.1638689 0 1 1 54.254375,25.816235 z"
+       transform="matrix(1.7557448,0,0,1.3023069,-34.05889,-10.281418)"
+       id="path4641"
+       style="opacity:0.92000002;fill:#ff00ff;fill-opacity:0.59183673;stroke:#ff00ff;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.22789115" />
+    <path
+       d="M 48.147544,20.673639 A 10.799449,7.1996326 0 1 1 26.548646,20.673639 A 10.799449,7.1996326 0 1 1 48.147544,20.673639 z"
+       transform="matrix(1.7557448,0,0,1.3023069,-34.05889,-10.281418)"
+       id="path4643"
+       style="opacity:0.92000002;fill:#ffea66;fill-opacity:0.59183673;stroke:#ff00ff;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.22789115" />
+    <path
+       d="M 45.12627,15.756033 A 6.9103618,6.2032552 0 1 1 31.305546,15.756033 A 6.9103618,6.2032552 0 1 1 45.12627,15.756033 z"
+       transform="matrix(1.7557448,0,0,1.3023069,-34.05889,-10.281418)"
+       id="path4645"
+       style="opacity:0.92000002;fill:#ff00ff;fill-opacity:0.59183673;stroke:#ff00ff;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.22789115" />
+  </g>
+</svg>
