@@ -25,6 +25,7 @@
 #include <QtGui>
 #include <QWidget>
 
+#include <set>
 #include <deque>
 #include <vector>
 #include <utility>
@@ -33,25 +34,9 @@
 #include "qjoylistener.h"
 #include "qsdlsound.h"
 
-struct ship_t {
-  ship_t() {};
-  QImage *pic;
-  int x, y;
-  double theta;
-  double vel;
-  int width, height;
-};
-
-struct bullet_t {
-  bullet_t() {};
-bullet_t(int xp, int yp) : x(xp), y(yp) {};
-
-  int x, y;
-  
-  static QImage *pic;
-  static int width, height;
-  static QSound *snd;
-};
+#include "playership.h"
+#include "mushroom.h"
+#include "bullet.h"
 
 class CentiGame : public QWidget {
   Q_OBJECT;
@@ -73,7 +58,7 @@ class CentiGame : public QWidget {
   void errorHandler(QString errMsg);
 
  private:
-  ship_t *theShip;
+  PlayerShip *theShip;
 
   QJoyListener joyThread;
   QSdlSound snd;
@@ -95,9 +80,30 @@ class CentiGame : public QWidget {
 
   bool shooting;
   int tillNextBullet;
-  std::deque<bullet_t> bullets;
+  
+  std::deque<Bullet> bullets;
 
+  std::vector<Mushroom> shrooms;
+
+  std::vector<AnimatedObject*> needsUpdate;
+  std::vector< std::pair<QRect, int> > clears;
+  std::vector<QPixmap> images;
+  std::vector<QPixmap> clear_images;
+  
   int bulletSound;
+
+  int SHIP_IMG;
+  int BULLET_IMG;
+  int MUSHROOM0_IMG;
+  int MUSHROOM1_IMG;
+  int MUSHROOM2_IMG;
+  int MUSHROOM3_IMG;
+  int SPIDER_IMG;
+  int SCORPION_IMG;
+  int FLEA_IMG;
+  int HEAD_IMG;
+  int BODY_IMG;
+  bool repaintAll;
 };
 
 #endif

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  head_segment.svg
+ 
+  Copyright (C) 2008 Jeremiah LaRocco
+
+  This file is part of Centipede
+
+  Centipede is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Centipede is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with Centipede.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64px"
+   height="64px"
+   id="svg4337"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="head_segment_bg.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs4339">
+    <linearGradient
+       id="linearGradient4906">
+      <stop
+         style="stop-color:#c83737;stop-opacity:1;"
+         offset="0"
+         id="stop4908" />
+      <stop
+         id="stop4914"
+         offset="0.85135138"
+         style="stop-color:#ff6f37;stop-opacity:0.90184051;" />
+      <stop
+         style="stop-color:#c83737;stop-opacity:0;"
+         offset="1"
+         id="stop4910" />
+    </linearGradient>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="4.7272727 : 14.727273 : 1"
+       inkscape:vp_y="6.1230318e-14 : 1000 : 0"
+       inkscape:vp_z="68.727273 : 14.727273 : 1"
+       inkscape:persp3d-origin="36.727273 : 4.0606057 : 1"
+       id="perspective4345" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="8"
+     inkscape:cx="20.167911"
+     inkscape:cy="14.431317"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1389"
+     inkscape:window-x="-1"
+     inkscape:window-y="-1" />
+  <metadata
+     id="metadata4342">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       sodipodi:type="star"
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4379"
+       sodipodi:sides="8"
+       sodipodi:cx="-0.54545456"
+       sodipodi:cy="-0.18181819"
+       sodipodi:r1="15.703871"
+       sodipodi:r2="14.508485"
+       sodipodi:arg1="0.73625743"
+       sodipodi:arg2="1.1289565"
+       inkscape:flatsided="true"
+       inkscape:rounded="3"
+       inkscape:randomized="0"
+       d="M 11.090909,10.363636 C -13.122515,37.081897 36.240074,13.731908 0.22593462,15.503095 C -35.788205,17.274283 15.627352,35.667969 -11.090909,11.454545 C -37.80917,-12.758879 -14.459181,36.603711 -16.230368,0.58957099 C -18.001555,-35.424569 -36.395242,15.990988 -12.181818,-10.727272 C 12.031606,-37.445533 -37.330983,-14.095545 -1.3168437,-15.866732 C 34.697296,-17.637919 -16.718261,-36.031605 9.9999997,-11.818182 C 36.71826,12.395242 13.368272,-36.967347 15.139459,-0.95320737 C 16.910646,35.060932 35.304333,-16.354625 11.090909,10.363636 z"
+       transform="matrix(1.3041055,0,0,1.3041056,32.71133,32.237109)" />
+  </g>
+</svg>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
-  circle.svg
+  bullet.svg
  
   Copyright (C) 2008 Jeremiah LaRocco
 
@@ -19,7 +19,6 @@
   You should have received a copy of the GNU General Public License
   along with Centipede.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -34,10 +33,21 @@
    id="svg2383"
    sodipodi:version="0.32"
    inkscape:version="0.46"
-   sodipodi:docname="ship.svg"
+   sodipodi:docname="bullet_bg.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
      id="defs2385">
+    <linearGradient
+       id="linearGradient3165">
+      <stop
+         style="stop-color:#ff0000;stop-opacity:1;"
+         offset="0"
+         id="stop3167" />
+      <stop
+         style="stop-color:#ff00ff;stop-opacity:0;"
+         offset="1"
+         id="stop3169" />
+    </linearGradient>
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
        inkscape:vp_x="0 : 32 : 1"
@@ -54,7 +64,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.5"
-     inkscape:cx="32"
+     inkscape:cx="-38.776374"
      inkscape:cy="32"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -79,29 +89,12 @@
      id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer">
-    <path
-       sodipodi:type="arc"
-       style="opacity:0.92000002;fill:#ff00ff;fill-opacity:0.27551018;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path2393"
-       sodipodi:cx="33"
-       sodipodi:cy="33.81818"
-       sodipodi:rx="11.727273"
-       sodipodi:ry="12.545455"
-       d="M 44.727273,33.81818 A 11.727273,12.545455 0 1 1 21.272727,33.81818 A 11.727273,12.545455 0 1 1 44.727273,33.81818 z"
-       transform="matrix(2.7286821,0,0,2.5507245,-58.04651,-54.260862)" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.71577674px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 32,0 L 32,64"
-       id="path2397"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 0,32 L 64,32"
-       id="path2401"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 27.818182,7.0909091 L 32,0.18181818 L 36.181818,7.2727273"
-       id="path2382" />
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.34558821;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2393"
+       width="14.563502"
+       height="63.654411"
+       x="24.354612"
+       y="0.17279413" />
   </g>
 </svg>

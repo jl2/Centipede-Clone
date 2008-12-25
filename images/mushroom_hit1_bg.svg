@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  mushroom.svg
+ 
+  Copyright (C) 2008 Jeremiah LaRocco
+
+  This file is part of Centipede
+
+  Centipede is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Centipede is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with Centipede.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="64"
+   height="64"
+   id="svg2383"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="mushroom_hit1_bg.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata2443">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:window-height="687"
+     inkscape:window-width="755"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="7.28125"
+     inkscape:cx="10.575107"
+     inkscape:cy="32"
+     inkscape:window-x="672"
+     inkscape:window-y="216"
+     inkscape:current-layer="svg2383" />
+  <defs
+     id="defs2385">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 32 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="64 : 32 : 1"
+       inkscape:persp3d-origin="32 : 21.333333 : 1"
+       id="perspective2445" />
+  </defs>
+  <path
+     style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.51212382000000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path4647"
+     d="M 39.64101,45.64941 C 39.64101,54.364664 35.472224,61.429774 30.329767,61.429774 C 25.18731,61.429774 21.018524,54.364664 21.018524,45.64941 C 21.018524,36.934156 25.18731,29.869046 30.329767,29.869046 C 35.472224,29.869046 39.64101,36.934156 39.64101,45.64941 L 39.64101,45.64941 z" />
+  <path
+     style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.51212382000000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path4641"
+     d="M 61.197947,23.339243 C 61.197947,29.211058 47.857835,33.971106 31.401971,33.971106 C 14.946107,33.971106 1.6059948,29.211058 1.6059948,23.339243 C 1.6059948,17.467428 14.946107,12.70738 31.401971,12.70738 C 47.857835,12.70738 61.197947,17.467428 61.197947,23.339243 L 61.197947,23.339243 z" />
+  <path
+     style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.51212382000000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path4643"
+     d="M 50.47591,16.642005 C 50.47591,21.820299 41.986747,26.018136 31.514834,26.018136 C 21.04292,26.018136 12.553757,21.820299 12.553757,16.642005 C 12.553757,11.463711 21.04292,7.265873 31.514834,7.265873 C 41.986747,7.265873 50.47591,11.463711 50.47591,16.642005 L 50.47591,16.642005 z" />
+</svg>

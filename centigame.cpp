@@ -24,6 +24,7 @@
 #include <iostream>
 
 #include <cmath>
+#include <cstdlib>
 
 #include "centigame.h"
 
@@ -31,15 +32,17 @@
 
 #define PI (3.141592654)
 
-extern int bullet_t::height;
-extern int bullet_t::width;
-extern QImage* bullet_t::pic;
-extern QSound* bullet_t::snd;
-
-bool del_bullet(bullet_t b) {
-  return (b.y<0);
+double randDouble(double min, double max) {
+  return (double(rand())/double(RAND_MAX))*(max-min)+min;
 }
 
+bool del_bullet(Bullet b) {
+  return b.hit();
+}
+
+bool del_mush(Mushroom m) {
+  return m.destroyed();
+}
 /*!
   Empty constructor just calls super class' constructor.
 */
@@ -48,26 +51,63 @@ CentiGame::CentiGame(QWidget *parent) : QWidget(parent),
 					step(5), max_speed(32),
 					dx(0.0), dy(0.0),
 					shooting(false),
-					tillNextBullet(0) {
-  theShip = new ship_t();
-  theShip->x = 50;
-  theShip->y = 50;
-  theShip->width = 64;
-  theShip->height = 64;
-  theShip->vel = 0.0;
-  theShip->theta = 90.0;
-  theShip->pic = new QImage(tr(":/images/ship.svg"));
+					tillNextBullet(0),
+					repaintAll(true) {
 
-  bullet_t::width = 16;
-  bullet_t::height = 16;
-  bullet_t::pic = new QImage(tr(":/images/bullet.svg"));
   
-//   if (QSound::isAvailable()) {
-//     bullet_t::snd = new QSound(tr("./sound/laser.wav"));
-//     bullet_t::snd->play();
-//   } else {
-//     std::cout << "Sound not available!\n";
-//   }
+  winWidth = -1;
+  winHeight = -1;
+  images.push_back(QPixmap(tr(":/images/ship.svg")));
+  SHIP_IMG = images.size()-1;
+  clear_images.push_back(QPixmap(tr(":/images/ship_bg.svg")));
+    
+  images.push_back(QPixmap(tr(":/images/bullet.svg")));
+  BULLET_IMG = images.size()-1;
+  clear_images.push_back(QPixmap(tr(":/images/bullet_bg.svg")));
+  
+  images.push_back(QPixmap(tr(":/images/mushroom.svg")));
+  MUSHROOM0_IMG = images.size()-1;
+  clear_images.push_back(QPixmap(tr(":/images/mushroom_bg.svg")));
+  
+  images.push_back(QPixmap(tr(":/images/mushroom_hit1.svg")));
+  MUSHROOM1_IMG = images.size()-1;
+  clear_images.push_back(QPixmap(tr(":/images/mushroom_hit1_bg.svg")));
+    
+  images.push_back(QPixmap(tr(":/images/mushroom_hit2.svg")));
+  MUSHROOM2_IMG = images.size()-1;
+  clear_images.push_back(QPixmap(tr(":/images/mushroom_hit2_bg.svg")));
+    
+  images.push_back(QPixmap(tr(":/images/mushroom_hit3.svg")));
+  MUSHROOM3_IMG = images.size()-1;
+  clear_images.push_back(QPixmap(tr(":/images/mushroom_hit3_bg.svg")));
+  
+  images.push_back(QPixmap(tr(":/images/spider.svg")));
+  SPIDER_IMG = images.size()-1;
+  clear_images.push_back(QPixmap(tr(":/images/spider_bg.svg")));
+  
+  images.push_back(QPixmap(tr(":/images/scorpion.svg")));
+  SCORPION_IMG = images.size()-1;
+  clear_images.push_back(QPixmap(tr(":/images/scorpion_bg.svg")));
+  
+  images.push_back(QPixmap(tr(":/images/flea.svg")));
+  FLEA_IMG = images.size()-1;
+  clear_images.push_back(QPixmap(tr(":/images/flea_bg.svg")));
+  
+  images.push_back(QPixmap(tr(":/images/head_segment.svg")));
+  HEAD_IMG = images.size()-1;
+  clear_images.push_back(QPixmap(tr(":/images/head_segment_bg.svg")));
+  
+  images.push_back(QPixmap(tr(":/images/body_segment.svg")));
+  BODY_IMG = images.size()-1;
+  clear_images.push_back(QPixmap(tr(":/images/body_segment_bg.svg")));
+  
+  for (int i=0;i<100;++i) {
+    shrooms.push_back(Mushroom(MUSHROOM0_IMG, MUSHROOM3_IMG,randDouble(0.0,31.0/32), randDouble(0.0,0.8)));
+    needsUpdate.push_back(&shrooms[i]);
+  }
+  
+  theShip = new PlayerShip(SHIP_IMG);
+
   bulletSound = snd.loadSound(tr("sound/laser.wav"));
   
   setFocusPolicy(Qt::StrongFocus);
@@ -79,6 +119,10 @@ CentiGame::CentiGame(QWidget *parent) : QWidget(parent),
 	  this, SLOT(errorHandler(QString)));
   
   joyThread.start();
+  setAutoFillBackground(false);
+  setAttribute(Qt::WA_OpaquePaintEvent);
+  QPixmapCache::setCacheLimit(1024*40);
+
   timerId = startTimer(gameSpeed);
 }
 
@@ -90,52 +134,73 @@ CentiGame::~CentiGame() {
     
   }
   if (theShip) {
-    delete theShip->pic;
     delete theShip;
   }
 }
 
 void CentiGame::timerEvent(QTimerEvent *event) {
   if (event->timerId() == timerId) {
-
-    int mw = theShip->width;
-    int mh = theShip->height;
-    
-    theShip->x += dx*max_speed;
-    theShip->y += dy*max_speed;
-
-    if (theShip->x < 0)
-      theShip->x = 0;
-    
-    if (theShip->x > (winWidth-mw))
-	theShip->x = (winWidth-mw);
-      
-    if (theShip->y < (winHeight*0.85))
-      theShip->y = (winHeight*0.85);
-	
-    if (theShip->y > (winHeight-mh))
-      theShip->y = winHeight-mh;
-
+    needsUpdate.clear();
     if (shooting && (tillNextBullet <=0) && (bullets.size()<20)) {
       tillNextBullet = 8;
-      bullets.push_back(bullet_t(theShip->x+(theShip->width/2)-bullet_t::width/2, theShip->y-bullet_t::height/2));
+      bullets.push_back(Bullet(BULLET_IMG, theShip->xpos()+(theShip->width()/2.0), theShip->ypos()));
       snd.playSound(bulletSound);
-//       if (bullet_t::snd)
-// 	bullet_t::snd->play();
     }
     
-    for (std::deque<bullet_t>::iterator iter = bullets.begin();
+    for (std::deque<Bullet>::iterator iter = bullets.begin();
 	 iter != bullets.end();
 	 ++iter) {
-      iter->y -= bullet_t::height/3;
+      iter->handleTimer();
+      
+      std::vector<Mushroom>::iterator sh;
+      for (sh = shrooms.begin(); sh != shrooms.end(); ++sh) {
+	if (sh->detectHit(*iter)) {
+	  sh->takeHit();
+	  iter->setHit();
+	  if (!sh->destroyed()) {
+	    needsUpdate.push_back(&(*sh));
+	    clears.push_back(std::make_pair(QRect(sh->xpos()*winWidth-1, sh->ypos()*winHeight-1,
+						  sh->width()*winWidth+2, sh->height()*winHeight+2),
+					    sh->image()-1));
+
+	  } else {
+	    clears.push_back(std::make_pair(QRect(sh->xpos()*winWidth-1, sh->ypos()*winHeight-1,
+						  sh->width()*winWidth+2, sh->height()*winHeight+2),
+					    sh->image()));
+	  }
+
+	}
+      }
+      clears.push_back(std::make_pair(QRect(iter->old_xpos()*winWidth-1, iter->old_ypos()*winHeight-1,
+					    iter->old_width()*winWidth+2, iter->old_height()*winHeight+2),
+				      iter->image()));
+	  
+
+      if (!iter->hit()) {
+	needsUpdate.push_back(&(*iter));
+      }
     }
-    std::deque<bullet_t>::iterator  ri =
+    
+    std::deque<Bullet>::iterator  bd =
       std::remove_if(bullets.begin(), bullets.end(), del_bullet);
-    if (ri!=bullets.end())
-      bullets.erase(ri);
+    
+    if (bd!=bullets.end())
+      bullets.erase(bd);
+    
+    std::vector<Mushroom>::iterator  md =
+      std::remove_if(shrooms.begin(), shrooms.end(), del_mush);
+    
+    if (md!=shrooms.end())
+      shrooms.erase(md);
+    
+    theShip->handleTimer();
+    clears.push_back(std::make_pair(QRect(theShip->old_xpos()*winWidth,theShip->old_ypos()*winHeight,
+					  theShip->old_width()*winWidth,theShip->old_height()*winHeight),
+				    SHIP_IMG));
+    needsUpdate.push_back(theShip);
     
     --tillNextBullet;
-//     std::cout << "X: " << theShip->x << "\nY: " << theShip->y << "\n";
+//     repaintAll = true;
     update();
   } else {
     QWidget::timerEvent(event);
@@ -148,30 +213,56 @@ void CentiGame::timerEvent(QTimerEvent *event) {
 */
 void CentiGame::paintEvent(QPaintEvent *) {
   QPainter painter(this);
-  painter.fillRect(0, 0,
-		   size().width(),
-		   size().height(),
-		   QColor(0,0,0,0xff));
 
-//   painter.fillRect(0, 0,
-// 		   size().width(),
-// 		   size().height()*0.85,
-// 		   QColor(0x33,0x33,0x33,0xff));
+  if (repaintAll) {
+    painter.fillRect(0,0,winWidth, winHeight, QColor(0,0,0,0xff));
+    std::vector<Mushroom>::iterator sh;
+    for (sh = shrooms.begin(); sh != shrooms.end(); ++sh) {
+      painter.drawPixmap(QRect(sh->xpos()*winWidth,
+			      sh->ypos()*winHeight,
+			      sh->width()*winWidth,
+			      sh->height()*winHeight),
+			images[sh->image()]);
+    }
+    
+    std::deque<Bullet>::iterator bt;
+    for (bt = bullets.begin(); bt != bullets.end(); ++ bt) {
+      painter.drawPixmap(QRect(bt->xpos()*winWidth, bt->ypos()*winHeight,
+			      bt->width()*winWidth, bt->height()*winHeight),
+			images[bt->image()]);
+    }
 
-  painter.drawImage(theShip->x,
-		    theShip->y,
-		    theShip->pic->scaled(theShip->width,
-					 theShip->height));
+    painter.drawPixmap(QRect(theShip->xpos()*winWidth,
+			    theShip->ypos()*winHeight,
+			    theShip->width()*winWidth,
+			    theShip->height()*winHeight),
+		      images[theShip->image()]);
+    
+    repaintAll = false;
+  } else {
 
-  for (std::deque<bullet_t>::iterator iter = bullets.begin();
-       iter != bullets.end();
-       ++iter) {
-    painter.drawImage(iter->x,
-		      iter->y,
-		      bullet_t::pic->scaled(bullet_t::width,
-					    bullet_t::height));
+    std::vector<std::pair<QRect, int> >::iterator ci;
+    for (ci = clears.begin();
+	 ci != clears.end();
+	 ++ci) {
+      painter.drawPixmap(ci->first, clear_images[ci->second]);
+    }
+
+    std::vector<AnimatedObject*>::iterator nui;
+    for (nui = needsUpdate.begin();
+	 nui != needsUpdate.end();
+	 ++nui) {
+      AnimatedObject *ni = *nui;
+      painter.drawPixmap(QRect(ni->xpos()*winWidth,
+			      ni->ypos()*winHeight,
+			      ni->width()*winWidth,
+			      ni->height()*winHeight),
+			images[ni->image()]);
+    
+    }
   }
-
+  clears.clear();
+  needsUpdate.clear();
 }
 
 /*!
@@ -180,10 +271,10 @@ void CentiGame::paintEvent(QPaintEvent *) {
 */
 void CentiGame::keyPressEvent(QKeyEvent *event) {
   switch (event->key()) {
-  case (Qt::Key_Up):       dy = -1.0; break;
-  case (Qt::Key_Down):     dy = 1.0; break;
-  case (Qt::Key_Right):    dx = 1.0; break;
-  case (Qt::Key_Left):     dx = -1.0; break;
+  case (Qt::Key_Up):       theShip->setDy(-1.0); break;
+  case (Qt::Key_Down):     theShip->setDy(1.0); break;
+  case (Qt::Key_Right):    theShip->setDx(1.0); break;
+  case (Qt::Key_Left):     theShip->setDx(-1.0); break;
   case (Qt::Key_Space):    shooting = true; break;
   default:                 QWidget::keyPressEvent(event);
   }
@@ -192,10 +283,10 @@ void CentiGame::keyPressEvent(QKeyEvent *event) {
 
 void CentiGame::keyReleaseEvent(QKeyEvent *event) {
   switch (event->key()) {
-  case (Qt::Key_Up):       dy = 0.0; break;
-  case (Qt::Key_Down):     dy = 0.0; break;
-  case (Qt::Key_Right):    dx = 0.0; break;
-  case (Qt::Key_Left):     dx = 0.0; break;
+  case (Qt::Key_Up):       theShip->setDy(0.0); break;
+  case (Qt::Key_Down):     theShip->setDy(0.0); break;
+  case (Qt::Key_Right):    theShip->setDx(0.0); break;
+  case (Qt::Key_Left):     theShip->setDx(0.0); break;
   case (Qt::Key_Space):    shooting = false; break;
   default:                 QWidget::keyPressEvent(event);
   }
@@ -213,9 +304,9 @@ void CentiGame::joystickEvent(QJoystickEvent *event) {
     event->getAxisEvent(ax, val);
 
     if (ax == 0) {
-      dx = val;
+      theShip->setDx(val);
     } else if (ax == 1) {
-      dy = val;
+      theShip->setDy(val);
     }
   } else if (event->type() == QJoystickEvent::ButtonDown) {
     switch (event->button()) {
@@ -243,11 +334,8 @@ void CentiGame::joystickEvent(QJoystickEvent *event) {
 void CentiGame::resizeEvent(QResizeEvent *event) {
   winWidth = event->size().width();
   winHeight = event->size().height();
-  max_speed = (winWidth/20);
-  theShip->width = winWidth/16;
-  theShip->height = winHeight/16;
-  bullet_t::width = winWidth/32;
-  bullet_t::height = winHeight/32;
+  repaintAll = true;
+  update();
 }
 
 void CentiGame::errorHandler(QString errMsg) {

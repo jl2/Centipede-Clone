@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  ship.svg
+ 
+  Copyright (C) 2008 Jeremiah LaRocco
+
+  This file is part of Centipede
+
+  Centipede is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Centipede is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with Centipede.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="64"
+   height="64"
+   id="svg4716"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="ship_bg.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata7823">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:window-height="1389"
+     inkscape:window-width="1920"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="7.28125"
+     inkscape:cx="2.6781116"
+     inkscape:cy="32"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:current-layer="svg4716" />
+  <defs
+     id="defs4718">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 32 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="64 : 32 : 1"
+       inkscape:persp3d-origin="32 : 21.333333 : 1"
+       id="perspective7825" />
+    <linearGradient
+       id="linearGradient5264">
+      <stop
+         id="stop5266"
+         style="stop-color:#00ff00;stop-opacity:0.95092022"
+         offset="0" />
+      <stop
+         id="stop5268"
+         style="stop-color:#004900;stop-opacity:0.19631901"
+         offset="1" />
+    </linearGradient>
+    <radialGradient
+       cx="31.495329"
+       cy="45.576725"
+       r="26.448799"
+       fx="31.495329"
+       fy="45.576725"
+       id="radialGradient5270"
+       xlink:href="#linearGradient5264"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.585179,4.2350945e-8,-4.5208758e-8,1.6264154,-18.913297,-26.592754)" />
+    <radialGradient
+       cx="32.036366"
+       cy="52.880375"
+       r="27.454544"
+       fx="32.036366"
+       fy="52.880375"
+       id="radialGradient5292"
+       xlink:href="#linearGradient5264"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.0413907,0,-1.2782209)" />
+  </defs>
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;opacity:1"
+     id="path4751"
+     d="M 32,0 L 40,32 L 60,48 L 60,60 L 4,60 L 4,48 L 24,32 L 32,0 z" />
+  <path
+     style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.18181818999999999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path5272"
+     d="M 4.6753636,53.790909 L 4.6780182,48.2 L 14.585364,40.290909 C 23.267982,33.35956 24.514073,32.303149 24.665236,31.745455 C 24.760109,31.395455 26.452782,24.645455 28.426745,16.745455 L 32.015782,2.3818182 L 35.758727,17.375293 L 39.501673,32.368767 L 49.450818,40.331569 L 59.4,48.294364 L 59.4,53.838109 L 59.4,59.381818 L 32.036364,59.381818 L 4.6727273,59.381818 L 4.6753636,53.790909 z" />
+</svg>
