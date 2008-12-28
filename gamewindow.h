@@ -44,6 +44,10 @@ class GameWindow : public QMainWindow {
   
   public slots:
   void about();
+  void updateScore(int sc);
+  void updateLevel(int lv);
+  void updateLives(int lvs);
+  void gameLost();
   
  private:
   void readSettings();
@@ -70,6 +74,11 @@ class GameWindow : public QMainWindow {
   
   QAction *exitAction;
   QAction *aboutAction;
+  
+  QToolBar *tb;
+  QLabel *score;
+  QLabel *lives;
+  QLabel *level;
 };
 
 #endif

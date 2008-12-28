@@ -1,5 +1,5 @@
 /*
-  playership.cpp
+  mushroom.cpp
  
   Copyright (C) 2008 Jeremiah LaRocco
 
@@ -19,43 +19,38 @@
   along with Centipede.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "playership.h"
+#include "mushroom.h"
 
-PlayerShip::PlayerShip(int img) : AnimatedObject(img,
-					 0.5-(1.0/32), 0.85,
-					 1.0/32,       1.0/24),
-			   dx(0.0), dy(0.0),
-			   shooting(false),
-			   maxSpeed(1.0/32) { }
+Mushroom::Mushroom(int first_img, int last_img,
+		   double x, double y) : AnimatedObject(first_img, x, y,
+							1.0/32, 1.0/32,
+							true),
+					 Destructable(),
+					 cur_img(first_img),
+					 fimg(first_img),
+					 limg(last_img) {}
 
-void PlayerShip::setDx(double x) {
-  dx = x;
+bool Mushroom::takeHit() {
+  ++cur_img;
+  if (cur_img>limg) {
+    dest = true;
+  } else {
+    setImage(cur_img);
+    dest = false;
+  }
+  return dest;
 }
-
-void PlayerShip::setDy(double y) {
-  dy = y;
-
+  
+bool Mushroom::detectHit(Bullet b) {
+  return overlaps(&b);
 }
-
-bool PlayerShip::handleTimer() {
-  
-  setXpos(xpos() + dx*maxSpeed);
-  setYpos(ypos() + dy*maxSpeed);
-  
-  if (xpos() < 0.0)
-    setXpos(0.0, false);
+bool Mushroom::reset() {
+  dest = false;
     
-  if (xpos() > (1.0-width()))
-    setXpos(1.0-width(),false);
-      
-  if (ypos() < 0.8)
-    setYpos(0.8,false);
-	
-  if (ypos() > (1.0-height()))
-    setYpos(1.0-height(),false);
-
-  if (dx!= 0.0 || dy !=0.0)
+  if (cur_img!=fimg) {
+    setImage(fimg);
+    cur_img = fimg;
     return true;
-
+  }
   return false;
 }

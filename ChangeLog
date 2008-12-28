@@ -1,2 +1,5 @@
 December 24, 2008
 Added mushrooms.  Removed some stuff from centigame.cpp and centigame.h.
+
+December 27, 2008
+Added spider.  Refactored some stuff.

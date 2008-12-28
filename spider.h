@@ -1,5 +1,5 @@
 /*
-  mushroom.h
+  spider.h
  
   Copyright (C) 2008 Jeremiah LaRocco
 
@@ -19,25 +19,27 @@
   along with Centipede.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MUSHROOM_H
-#define MUSHROOM_H
+#ifndef SPIDER_H
+#define SPIDER_H
+#include <cmath>
+
+#include "utils.h"
 
 #include "bullet.h"
 #include "animatedobject.h"
 #include "destructable.h"
 
-class Mushroom : public AnimatedObject, public Destructable {
+class Spider : public AnimatedObject, public TimedObject, public Destructable {
  public:
-  Mushroom(int first_img, int last_img, double x, double y);
-
+  Spider(int img, double speed);
   bool takeHit();
-  
   bool detectHit(Bullet b);
-  bool reset();
+  bool handleTimer();
  private:
-  int cur_img;
-  int fimg;
-  int limg;
+  double xgoal, ygoal;  // Where it's moving to
+  double dir;
+  double spd;
+  double dx, dy;
 };
 
 #endif

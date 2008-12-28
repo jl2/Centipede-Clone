@@ -31,9 +31,29 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent) {
   setupMenuBar();
 
   setWindowTitle(tr("Centipede"));
+
+  tb = addToolBar(tr("Game"));
+
+  score = new QLabel(tr("0"));
+  tb->addWidget(score);
   
+  lives = new QLabel(tr("3"));
+  tb->addWidget(lives);
+  
+  level = new QLabel(tr("1"));
+  tb->addWidget(level);
+
   theGame = new CentiGame(this);
   setCentralWidget(theGame);
+
+  connect(theGame, SIGNAL(scoreChanged(int)),
+	  this, SLOT(updateScore(int)));
+
+  connect(theGame, SIGNAL(livesChanged(int)),
+	  this, SLOT(updateLives(int)));
+  
+  connect(theGame, SIGNAL(gameLost()),
+	  this, SLOT(gameLost()));
 }
 
 GameWindow::~GameWindow() {
@@ -103,3 +123,22 @@ void GameWindow::about() {
   QMessageBox::about(this, tr("About"), tr("<h2>Centipede Clone</h2><p>Qt version</p><p>"
 					   "By Jeremiah LaRocco.</p>"));
 }
+
+void GameWindow::updateScore(int sc) {
+  score->setText(tr("%n","", sc));
+}
+
+void GameWindow::updateLevel(int lv) {
+  level->setText(tr("%n","",lv));
+}
+
+void GameWindow::updateLives(int lvs) {
+  lives->setText(tr("%n","", lvs));
+}
+
+void GameWindow::gameLost() {
+  QMessageBox::critical(this, tr("Lost!"),
+			tr("You've lost!"),
+			QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);
+}
+

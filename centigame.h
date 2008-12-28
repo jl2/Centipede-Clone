@@ -37,6 +37,7 @@
 #include "playership.h"
 #include "mushroom.h"
 #include "bullet.h"
+#include "spider.h"
 
 class CentiGame : public QWidget {
   Q_OBJECT;
@@ -45,6 +46,11 @@ class CentiGame : public QWidget {
   CentiGame(QWidget *parent = 0);
   ~CentiGame();
 
+  signals:
+  void scoreChanged(int sc);
+  void levelChanged(int lv);
+  void livesChanged(int lives);
+  void gameLost();
   
  protected:
   void paintEvent(QPaintEvent *event);
@@ -58,6 +64,10 @@ class CentiGame : public QWidget {
   void errorHandler(QString errMsg);
 
  private:
+  void erase(AnimatedObject *obj);
+  void erase(Mushroom *obj);
+  void draw(AnimatedObject *obj);
+  
   PlayerShip *theShip;
 
   QJoyListener joyThread;
@@ -89,8 +99,13 @@ class CentiGame : public QWidget {
   std::vector< std::pair<QRect, int> > clears;
   std::vector<QPixmap> images;
   std::vector<QPixmap> clear_images;
+
+  Spider *spid;
+
   
   int bulletSound;
+  int shroomSound;
+  int spiderSound;
 
   int SHIP_IMG;
   int BULLET_IMG;
@@ -104,6 +119,13 @@ class CentiGame : public QWidget {
   int HEAD_IMG;
   int BODY_IMG;
   bool repaintAll;
+
+  int curLevel;
+  int score;
+  int remainingLives;
+  int spiderFreq;
+  int scorpionFreq;
+  int fleaFreq;
 };
 
 #endif

@@ -24,17 +24,16 @@
 #include <iostream>
 
 #include <cmath>
+#include <ctime>
 #include <cstdlib>
+
+#include "utils.h"
 
 #include "centigame.h"
 
 #include "qjoystick.h"
 
 #define PI (3.141592654)
-
-double randDouble(double min, double max) {
-  return (double(rand())/double(RAND_MAX))*(max-min)+min;
-}
 
 bool del_bullet(Bullet b) {
   return b.hit();
@@ -52,55 +51,62 @@ CentiGame::CentiGame(QWidget *parent) : QWidget(parent),
 					dx(0.0), dy(0.0),
 					shooting(false),
 					tillNextBullet(0),
-					repaintAll(true) {
-
-  
+					spid(0),
+					repaintAll(true),
+					curLevel(1),
+					score(0),
+					remainingLives(3),
+					spiderFreq(200),
+					scorpionFreq(5000),
+					fleaFreq(2000) {
+  std::srand(std::time(0));
   winWidth = -1;
   winHeight = -1;
+  
   images.push_back(QPixmap(tr(":/images/ship.svg")));
-  SHIP_IMG = images.size()-1;
   clear_images.push_back(QPixmap(tr(":/images/ship_bg.svg")));
-    
+  SHIP_IMG = images.size()-1;
+
   images.push_back(QPixmap(tr(":/images/bullet.svg")));
-  BULLET_IMG = images.size()-1;
   clear_images.push_back(QPixmap(tr(":/images/bullet_bg.svg")));
+  BULLET_IMG = images.size()-1;
   
   images.push_back(QPixmap(tr(":/images/mushroom.svg")));
-  MUSHROOM0_IMG = images.size()-1;
   clear_images.push_back(QPixmap(tr(":/images/mushroom_bg.svg")));
+  MUSHROOM0_IMG = images.size()-1;
   
   images.push_back(QPixmap(tr(":/images/mushroom_hit1.svg")));
-  MUSHROOM1_IMG = images.size()-1;
   clear_images.push_back(QPixmap(tr(":/images/mushroom_hit1_bg.svg")));
-    
+  MUSHROOM1_IMG = images.size()-1;
+  
   images.push_back(QPixmap(tr(":/images/mushroom_hit2.svg")));
-  MUSHROOM2_IMG = images.size()-1;
   clear_images.push_back(QPixmap(tr(":/images/mushroom_hit2_bg.svg")));
-    
+  MUSHROOM2_IMG = images.size()-1;
+  
   images.push_back(QPixmap(tr(":/images/mushroom_hit3.svg")));
-  MUSHROOM3_IMG = images.size()-1;
   clear_images.push_back(QPixmap(tr(":/images/mushroom_hit3_bg.svg")));
+  MUSHROOM3_IMG = images.size()-1;
   
   images.push_back(QPixmap(tr(":/images/spider.svg")));
-  SPIDER_IMG = images.size()-1;
   clear_images.push_back(QPixmap(tr(":/images/spider_bg.svg")));
+  SPIDER_IMG = images.size()-1;
   
   images.push_back(QPixmap(tr(":/images/scorpion.svg")));
-  SCORPION_IMG = images.size()-1;
   clear_images.push_back(QPixmap(tr(":/images/scorpion_bg.svg")));
+  SCORPION_IMG = images.size()-1;
   
   images.push_back(QPixmap(tr(":/images/flea.svg")));
-  FLEA_IMG = images.size()-1;
   clear_images.push_back(QPixmap(tr(":/images/flea_bg.svg")));
+  FLEA_IMG = images.size()-1;
   
   images.push_back(QPixmap(tr(":/images/head_segment.svg")));
-  HEAD_IMG = images.size()-1;
   clear_images.push_back(QPixmap(tr(":/images/head_segment_bg.svg")));
-  
+  HEAD_IMG = images.size()-1;
+
   images.push_back(QPixmap(tr(":/images/body_segment.svg")));
-  BODY_IMG = images.size()-1;
   clear_images.push_back(QPixmap(tr(":/images/body_segment_bg.svg")));
-  
+  BODY_IMG = images.size()-1;
+
   for (int i=0;i<100;++i) {
     shrooms.push_back(Mushroom(MUSHROOM0_IMG, MUSHROOM3_IMG,randDouble(0.0,31.0/32), randDouble(0.0,0.8)));
     needsUpdate.push_back(&shrooms[i]);
@@ -109,6 +115,8 @@ CentiGame::CentiGame(QWidget *parent) : QWidget(parent),
   theShip = new PlayerShip(SHIP_IMG);
 
   bulletSound = snd.loadSound(tr("sound/laser.wav"));
+  shroomSound = snd.loadSound(tr("sound/mushroom_gen.wav"));
+  spiderSound = snd.loadSound(tr("sound/spider_kill.wav"));
   
   setFocusPolicy(Qt::StrongFocus);
 
@@ -158,26 +166,91 @@ void CentiGame::timerEvent(QTimerEvent *event) {
 	  sh->takeHit();
 	  iter->setHit();
 	  if (!sh->destroyed()) {
-	    needsUpdate.push_back(&(*sh));
-	    clears.push_back(std::make_pair(QRect(sh->xpos()*winWidth-1, sh->ypos()*winHeight-1,
-						  sh->width()*winWidth+2, sh->height()*winHeight+2),
-					    sh->image()-1));
-
+	    draw(&*sh);
+	    erase(&*sh);
 	  } else {
-	    clears.push_back(std::make_pair(QRect(sh->xpos()*winWidth-1, sh->ypos()*winHeight-1,
-						  sh->width()*winWidth+2, sh->height()*winHeight+2),
-					    sh->image()));
+	    erase(&*sh);
+	    ++score;
+	    emit scoreChanged(score);
 	  }
 
 	}
       }
-      clears.push_back(std::make_pair(QRect(iter->old_xpos()*winWidth-1, iter->old_ypos()*winHeight-1,
-					    iter->old_width()*winWidth+2, iter->old_height()*winHeight+2),
-				      iter->image()));
+      erase(&*iter);
+      
+      if (spid) {
+	if (spid->detectHit(*iter)) {
+	  score += 100;
+	  emit scoreChanged(score);
 	  
-
+	  erase(spid);
+	  clears.push_back(std::make_pair(QRect(spid->xpos()*winWidth,spid->ypos()*winHeight,
+					  spid->width()*winWidth,spid->height()*winHeight),
+				  spid->image()));
+	  snd.playSound(spiderSound);
+	  iter->setHit();
+	  delete spid;
+	  spid = 0;
+	}
+      }
       if (!iter->hit()) {
-	needsUpdate.push_back(&(*iter));
+	draw(&*iter);
+      }
+    }
+    std::vector<Mushroom>::iterator sh;
+    for (sh = shrooms.begin(); sh != shrooms.end(); ++sh) {
+      if (sh->overlaps(theShip)) {
+	erase(&*sh);
+	draw(&*sh);
+      }
+      if (spid) {
+	if (sh->overlaps(spid)) {
+	  erase(&*sh);
+	  draw(&*sh);
+	}
+      }
+    }
+      
+    if (spid==0 && (std::rand()%spiderFreq == 0)) {
+      spid = new Spider(SPIDER_IMG, curLevel*0.0025);
+    }
+
+    if (spid && spid->overlaps(theShip)) {
+      killTimer(timerId);
+      --remainingLives;
+      emit livesChanged(remainingLives);
+
+      erase(theShip);
+      repaintAll = true;
+      theShip->setXpos(0.5);
+      delete spid;
+      spid = 0;
+      std::vector<Mushroom>::iterator sh;
+      for (sh = shrooms.begin(); sh != shrooms.end(); ++sh) {
+	  
+	if (sh->reset()) {
+	  erase(&*sh);
+	  draw(&*sh);
+	  snd.playSound(shroomSound);
+	  usleep(750);
+	}
+      }
+      if (remainingLives < 0) {
+	update();
+	bullets.clear();
+	emit gameLost();
+	return;
+      }
+
+      timerId = startTimer(gameSpeed);
+    }
+    
+    if (spid) {
+      spid->handleTimer();
+      if (spid->xpos()<0.0 || spid->xpos()>1.0) {
+	erase(spid);
+	delete spid;
+	spid = 0;
       }
     }
     
@@ -194,10 +267,13 @@ void CentiGame::timerEvent(QTimerEvent *event) {
       shrooms.erase(md);
     
     theShip->handleTimer();
-    clears.push_back(std::make_pair(QRect(theShip->old_xpos()*winWidth,theShip->old_ypos()*winHeight,
-					  theShip->old_width()*winWidth,theShip->old_height()*winHeight),
-				    SHIP_IMG));
-    needsUpdate.push_back(theShip);
+    erase(theShip);
+    draw(theShip);
+    
+    if (spid) {
+      erase(spid);
+      draw(spid);
+    }
     
     --tillNextBullet;
 //     repaintAll = true;
@@ -344,4 +420,20 @@ void CentiGame::errorHandler(QString errMsg) {
 			QMessageBox::Ok,
 			QMessageBox::NoButton,
 			QMessageBox::NoButton);
+}
+
+void CentiGame::erase(AnimatedObject *obj) {
+  clears.push_back(std::make_pair(QRect(obj->old_xpos()*winWidth,obj->old_ypos()*winHeight,
+					  obj->old_width()*winWidth,obj->old_height()*winHeight),
+				  obj->image()));
+}
+
+void CentiGame::erase(Mushroom *obj) {
+  clears.push_back(std::make_pair(QRect(obj->old_xpos()*winWidth,obj->old_ypos()*winHeight,
+					  obj->old_width()*winWidth,obj->old_height()*winHeight),
+				  MUSHROOM0_IMG));
+}
+
+void CentiGame::draw(AnimatedObject *obj) {
+  needsUpdate.push_back(obj);
 }

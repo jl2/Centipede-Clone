@@ -86,7 +86,20 @@ class AnimatedObject {
   void setImage(int img) { pic = img; }
 
   bool fillBg() { return fbg; }
-    
+
+  bool overlaps(AnimatedObject *ao) {
+    if (ao->xpos()<(xpos()+width())) {
+      if ((ao->xpos()+ao->width())>xpos()) {
+	if (ao->ypos()<(ypos()+height())) {
+	  if ((ao->ypos()+ao->height())>ypos()) {
+	    return true;
+	  }
+	}
+      }
+    }
+    return false;
+  }
+  
  private:
   int pic;
   
