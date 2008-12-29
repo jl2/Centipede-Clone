@@ -23,6 +23,11 @@
 #define HMWINDOW_INCLUDE_H
 
 #include <QMainWindow>
+#include <QDateTime>
+#include <vector>
+
+#include "utils.h"
+
 #include "centigame.h"
 
 class QMenu;
@@ -33,6 +38,9 @@ class QListWidget;
 class QListWidgetItem;
 class QStackedWidget;
 class QFrame;
+class QSettings;
+
+
 
 class GameWindow : public QMainWindow {
   Q_OBJECT;
@@ -48,9 +56,14 @@ class GameWindow : public QMainWindow {
   void updateLevel(int lv);
   void updateLives(int lvs);
   void gameLost();
+  void newGame();
+  void highScores();
+  void mute();
+  void pause();
   
  private:
-  void readSettings();
+  void readHighScores();
+  void writeHighScores();
   void setupActions();
   
   void setupFileActions();
@@ -71,6 +84,11 @@ class GameWindow : public QMainWindow {
   bool canContinue();
 
   CentiGame *theGame;
+
+  QAction *newGameAction;
+  QAction *pauseAction;
+  QAction *muteAction;
+  QAction *highScoreAction;
   
   QAction *exitAction;
   QAction *aboutAction;
@@ -79,6 +97,11 @@ class GameWindow : public QMainWindow {
   QLabel *score;
   QLabel *lives;
   QLabel *level;
+
+  QSettings *qset;
+  
+  std::vector<best_entry> high_scores;
+  
 };
 
 #endif

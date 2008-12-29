@@ -54,11 +54,12 @@ CentiGame::CentiGame(QWidget *parent) : QWidget(parent),
 					spid(0),
 					repaintAll(true),
 					curLevel(1),
-					score(0),
+					theScore(0),
 					remainingLives(3),
 					spiderFreq(200),
-					scorpionFreq(5000),
-					fleaFreq(2000) {
+					scorpionFreq(800),
+					fleaFreq(600),
+					paused(false) {
   std::srand(std::time(0));
   winWidth = -1;
   winHeight = -1;
@@ -107,12 +108,6 @@ CentiGame::CentiGame(QWidget *parent) : QWidget(parent),
   clear_images.push_back(QPixmap(tr(":/images/body_segment_bg.svg")));
   BODY_IMG = images.size()-1;
 
-  for (int i=0;i<100;++i) {
-    shrooms.push_back(Mushroom(MUSHROOM0_IMG, MUSHROOM3_IMG,randDouble(0.0,31.0/32), randDouble(0.0,0.8)));
-    needsUpdate.push_back(&shrooms[i]);
-  }
-  
-  theShip = new PlayerShip(SHIP_IMG);
 
   bulletSound = snd.loadSound(tr("sound/laser.wav"));
   shroomSound = snd.loadSound(tr("sound/mushroom_gen.wav"));
@@ -129,7 +124,13 @@ CentiGame::CentiGame(QWidget *parent) : QWidget(parent),
   joyThread.start();
   setAutoFillBackground(false);
   setAttribute(Qt::WA_OpaquePaintEvent);
-  QPixmapCache::setCacheLimit(1024*40);
+
+  for (int i=0;i<100;++i) {
+    shrooms.push_back(Mushroom(MUSHROOM0_IMG, MUSHROOM3_IMG,randDouble(0.0,31.0/32), randDouble(0.0,0.8)));
+    needsUpdate.push_back(&shrooms[i]);
+  }
+  
+  theShip = new PlayerShip(SHIP_IMG);
 
   timerId = startTimer(gameSpeed);
 }
@@ -141,9 +142,54 @@ CentiGame::~CentiGame() {
     joyThread.wait();
     
   }
+  killTimer(timerId);
   if (theShip) {
     delete theShip;
   }
+  if (spid) {
+    delete spid;
+  }
+}
+
+void CentiGame::newGame() {
+  if (theShip) {
+    delete theShip;
+  }
+  if (spid) {
+    delete spid;
+  }
+  
+  needsUpdate.clear();
+  shrooms.clear();
+  clears.clear();
+  bullets.clear();
+  
+  repaintAll = true;
+  for (int i=0;i<100;++i) {
+    shrooms.push_back(Mushroom(MUSHROOM0_IMG, MUSHROOM3_IMG,randDouble(0.0,31.0/32), randDouble(0.0,0.9)));
+    needsUpdate.push_back(&shrooms[i]);
+  }
+  gameSpeed = 20;
+  step = 5;
+  max_speed = 32;
+  dx = 0.0; dy = 0.0;
+  shooting = false;
+  tillNextBullet = 0;
+  spid = 0;
+  repaintAll = true;
+  curLevel = 1;
+  theScore = 0;
+  remainingLives = 3;
+  spiderFreq = 200;
+  scorpionFreq = 800;
+  fleaFreq = 600;
+  paused = false;
+  theShip = new PlayerShip(SHIP_IMG);
+  emit scoreChanged(theScore);
+  emit livesChanged(remainingLives);
+  emit levelChanged(curLevel);
+  killTimer(timerId);
+  timerId = startTimer(gameSpeed);
 }
 
 void CentiGame::timerEvent(QTimerEvent *event) {
@@ -170,8 +216,8 @@ void CentiGame::timerEvent(QTimerEvent *event) {
 	    erase(&*sh);
 	  } else {
 	    erase(&*sh);
-	    ++score;
-	    emit scoreChanged(score);
+	    ++theScore;
+	    emit scoreChanged(theScore);
 	  }
 
 	}
@@ -180,8 +226,8 @@ void CentiGame::timerEvent(QTimerEvent *event) {
       
       if (spid) {
 	if (spid->detectHit(*iter)) {
-	  score += 100;
-	  emit scoreChanged(score);
+	  theScore += 100;
+	  emit scoreChanged(theScore);
 	  
 	  erase(spid);
 	  clears.push_back(std::make_pair(QRect(spid->xpos()*winWidth,spid->ypos()*winHeight,
@@ -313,7 +359,14 @@ void CentiGame::paintEvent(QPaintEvent *) {
 			    theShip->width()*winWidth,
 			    theShip->height()*winHeight),
 		      images[theShip->image()]);
-    
+
+    if (spid) {
+      painter.drawPixmap(QRect(spid->xpos()*winWidth,
+			    spid->ypos()*winHeight,
+			    spid->width()*winWidth,
+			    spid->height()*winHeight),
+		      images[spid->image()]);
+    }
     repaintAll = false;
   } else {
 
@@ -436,4 +489,22 @@ void CentiGame::erase(Mushroom *obj) {
 
 void CentiGame::draw(AnimatedObject *obj) {
   needsUpdate.push_back(obj);
+}
+bool CentiGame::isMute() {
+  return snd.isMute();
+}
+void CentiGame::setMute(bool m) {
+  snd.setMute(m);
+}
+bool CentiGame::isPaused() {
+  return paused;
+}
+
+void CentiGame::setPaused(bool p) {
+  paused = p;
+  if (p) {
+    killTimer(timerId);
+  } else {
+    timerId = startTimer(gameSpeed);
+  }
 }

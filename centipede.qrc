@@ -1,27 +1,29 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-    <file>images/body_segment.svg</file>
-    <file>images/bullet.svg</file>
-    <file>images/flea.svg</file>
-    <file>images/head_segment.svg</file>
-    <file>images/mushroom.svg</file>
-    <file>images/mushroom_hit1.svg</file>
-    <file>images/mushroom_hit2.svg</file>
-    <file>images/mushroom_hit3.svg</file>
-    <file>images/scorpion.svg</file>
-    <file>images/ship.svg</file>
-    <file>images/spider.svg</file>
-    
-    <file>images/body_segment_bg.svg</file>
-    <file>images/bullet_bg.svg</file>
-    <file>images/flea_bg.svg</file>
-    <file>images/head_segment_bg.svg</file>
-    <file>images/mushroom_bg.svg</file>
-    <file>images/mushroom_hit1_bg.svg</file>
-    <file>images/mushroom_hit2_bg.svg</file>
-    <file>images/mushroom_hit3_bg.svg</file>
-    <file>images/scorpion_bg.svg</file>
-    <file>images/ship_bg.svg</file>
-    <file>images/spider_bg.svg</file>
+  <file>images/globe.png</file>
+  
+  <file>images/body_segment.svg</file>
+  <file>images/bullet.svg</file>
+  <file>images/flea.svg</file>
+  <file>images/head_segment.svg</file>
+  <file>images/mushroom.svg</file>
+  <file>images/mushroom_hit1.svg</file>
+  <file>images/mushroom_hit2.svg</file>
+  <file>images/mushroom_hit3.svg</file>
+  <file>images/scorpion.svg</file>
+  <file>images/ship.svg</file>
+  <file>images/spider.svg</file>
+  
+  <file>images/body_segment_bg.svg</file>
+  <file>images/bullet_bg.svg</file>
+  <file>images/flea_bg.svg</file>
+  <file>images/head_segment_bg.svg</file>
+  <file>images/mushroom_bg.svg</file>
+  <file>images/mushroom_hit1_bg.svg</file>
+  <file>images/mushroom_hit2_bg.svg</file>
+  <file>images/mushroom_hit3_bg.svg</file>
+  <file>images/scorpion_bg.svg</file>
+  <file>images/ship_bg.svg</file>
+  <file>images/spider_bg.svg</file>
 </qresource>
 </RCC>	

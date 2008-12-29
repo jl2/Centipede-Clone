@@ -22,7 +22,8 @@
 #include "qsdlsound.h"
 
 QSdlSound::QSdlSound() : sdlInitializedHere(false),
-			 sndInitializedHere(false) {
+			 sndInitializedHere(false),
+			 muted(false) {
   if (!SDL_WasInit(SDL_INIT_VIDEO)) {
     SDL_Init(SDL_INIT_VIDEO);
     sdlInitializedHere = true;
@@ -58,7 +59,8 @@ QSdlSound::~QSdlSound() {
 }
 
 void QSdlSound::playSound(int snd) {
-  Mix_PlayChannel( -1, sounds[snd], 0 );
+  if (!muted) 
+    Mix_PlayChannel( -1, sounds[snd], 0 );
 }
 
 int QSdlSound::loadSound(QString fn) {
@@ -66,4 +68,10 @@ int QSdlSound::loadSound(QString fn) {
   theChunk = Mix_LoadWAV(fn.toStdString().c_str());
   sounds.push_back(theChunk);
   return (sounds.size()-1);
+}
+void QSdlSound::setMute(bool m) {
+  muted = m;
+}
+bool QSdlSound::isMute() {
+  return muted;
 }

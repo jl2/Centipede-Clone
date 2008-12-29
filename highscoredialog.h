@@ -1,5 +1,5 @@
 /*
-  qsdlsound.h
+  highscoredialog.h
  
   Copyright (C) 2008 Jeremiah LaRocco
 
@@ -19,32 +19,25 @@
   along with Centipede.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef Q_SDL_SOUND_H
-#define Q_SDL_SOUND_H
+#ifndef HIGH_SCORE_DIALOG_H
+#define HIGH_SCORE_DIALOG_H
 
-#include <QString>
-
+#include <QtGui>
+#include <QDialog>
+#include <QTableView>
+#include "utils.h"
 #include <vector>
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_mixer.h>
+class HighScoreDialog : public QDialog {
+  Q_OBJECT;
+public:
+  HighScoreDialog(std::vector<best_entry> &scores, QWidget *parent = 0);
 
-class QSdlSound {
- public:
-  QSdlSound();
-  ~QSdlSound();
-  
-  void playSound(int snd);
-  int loadSound(QString fn);
-  void setMute(bool m);
-  bool isMute();
- private:
-
-  std::vector<Mix_Chunk *> sounds;
-  
-  bool sdlInitializedHere;
-  bool sndInitializedHere;
-  bool muted;
+private:
+  QTableWidget *scoreTable;
+  QPushButton *okayButton;
+  std::vector<best_entry> sc;
 };
+  
 
 #endif

@@ -46,11 +46,19 @@ class CentiGame : public QWidget {
   CentiGame(QWidget *parent = 0);
   ~CentiGame();
 
-  signals:
+  void newGame();
+  bool isMute();
+  void setMute(bool m);
+  bool isPaused();
+  void setPaused(bool p);
+  int score() { return theScore; }
+  
+ signals:
   void scoreChanged(int sc);
   void levelChanged(int lv);
   void livesChanged(int lives);
   void gameLost();
+
   
  protected:
   void paintEvent(QPaintEvent *event);
@@ -121,11 +129,12 @@ class CentiGame : public QWidget {
   bool repaintAll;
 
   int curLevel;
-  int score;
+  int theScore;
   int remainingLives;
   int spiderFreq;
   int scorpionFreq;
   int fleaFreq;
+  bool paused;
 };
 
 #endif
